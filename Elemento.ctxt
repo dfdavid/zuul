@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Elemento
+comment0.text=\n\ Write\ a\ description\ of\ class\ Elemento\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=descripcion\ peso
+comment1.target=Elemento(java.lang.String,\ int)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Elemento\n
+comment2.params=peso
+comment2.target=void\ setPeso(int)
+comment2.text=\n\ asigna\ el\ peso\ al\ Alemento\n\ \n\ @param\ \ nuevo\ peso\n
+comment3.params=descripcion
+comment3.target=void\ setDescripcion(java.lang.String)
+comment3.text=\n\ asigna\ el\ peso\ al\ Alemento\n\ \n\ @param\ \ nuevo\ peso\n
+comment4.params=
+comment4.target=java.lang.String\ getDescripcion()
+comment4.text=\n\ obtiene\ la\ descripcion\ de\ elem\n
+comment5.params=
+comment5.target=int\ getPeso()
+comment5.text=\n\ asigna\ el\ peso\ al\ Alemento\n\ \n\ @param\ \ nuevo\ peso\n
+numComments=6
