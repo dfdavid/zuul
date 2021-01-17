@@ -18,14 +18,16 @@
 public class Juego 
 {
     private Analizador analizador;
-    private Habitacion habitacionActual;
-    private Habitacion habitacionAnterior;
+    private Jugador jugador;
+    //private Habitacion habitacionActual;
+    //private Habitacion habitacionAnterior;
         
     /**
      * Crea el juego e inicializa el mapa interno.
      */
     public Juego() 
     {
+        crearJugador();
         crearHabitaciones();
         analizador = new Analizador();
     }
@@ -54,12 +56,13 @@ public class Juego
         // inicializa las salidas de las habitaciones
         cocina.establecerSalida("sur", bar);
         cocina.establecerSalida("este", pasadizo);
-        cocina.agregarElemento("Sanguchitos de miga", 300);
-        cocina.agregarElemento("Licuadora", 1500);
+        cocina.agregarElemento("Sanguchitos_de_miga", 300, true);
+        cocina.agregarElemento("Licuadora", 1500, false);
         pasadizo.establecerSalida("oeste", cocina);
         pasadizo.establecerSalida("este", trastero);
         trastero.establecerSalida("oeste", pasadizo);
         trastero.establecerSalida("sur", teatro);
+        trastero.agregarElemento("Lingote_de_Oro", 5000, false);
         teatro.establecerSalida("norte", trastero);
         teatro.establecerSalida("oeste", exterior);
         teatro.establecerSalida("abajo", sotanoTeatro);
@@ -69,16 +72,22 @@ public class Juego
         bar.establecerSalida("norte", cocina);
         bar.establecerSalida("este", exterior);
         bar.establecerSalida("sur", patioSO);
+        bar.agregarElemento("Mesa", 5000, false);
+        bar.agregarElemento("Sanguche_mordido", 50, true);
+        bar.agregarElemento("Cubiertos_de_plastico", 150, false);
+        bar.agregarElemento("Vaso_de_plastico", 50, false);
         patioSO.establecerSalida("norte", bar);
         patioSO.establecerSalida("este", laboratorio);
         laboratorio.establecerSalida("oeste", patioSO);
         laboratorio.establecerSalida("norte", exterior);
         laboratorio.establecerSalida("este", oficina);
+        laboratorio.agregarElemento("Libro", 200, false);
         oficina.establecerSalida("oeste", laboratorio);
         sotanoTeatro.establecerSalida("arriba", teatro);
 
-        habitacionActual = exterior;  // el juego arranca desde afuera
-        habitacionAnterior = null;
+        //habitacionActual = exterior;  // el juego arranca desde afuera
+        jugador.setHabitacionActual(exterior);
+        
     }
 
     /**
@@ -135,13 +144,17 @@ public class Juego
             imprimirAyuda();
         else if (palabraComando.equals("ir"))
             irAHabitacion(comando);
+        else if (palabraComando.equals("tomar"))
+            jugador.tomarElemento(comando);    
+        else if (palabraComando.equals("dejar"))
+            jugador.dejarElemento(comando);
         else if (palabraComando.equals("salir"))
             quiereSalir = salir(comando);
         else if(palabraComando.equals("ver")){
-                System.out.println(habitacionActual.getDescripcionLarga());
+            System.out.println(jugador.getHabitacionActual().getDescripcionLarga());
         }
         else if (palabraComando.equals("comer")){
-            System.out.println("me acabo de morfar un chegusan");
+           jugador.comer(comando.getSegundaPalabra());
         }
         else if (palabraComando.equals("putear")){
             System.out.println("La reputa madre que te pario!");
@@ -149,6 +162,10 @@ public class Juego
         else if(palabraComando.equals("volver")){
             volver();
         }
+        else if(palabraComando.equals("inventario")){
+            jugador.inventario();
+        }
+        
         return quiereSalir;
     }
 
@@ -194,36 +211,43 @@ public class Juego
         //vieja implementacion del cambio de habitacion con solo 4 habitaciones
         
         if(direccion.equals("norte")) {
-            habitacionAnterior = habitacionActual;
-            siguienteHabitacion = habitacionActual.getSalida("norte");
-            
+            //habitacionAnterior = habitacionActual;
+            //siguienteHabitacion = habitacionActual.getSalida("norte");
+            jugador.setHabitacionSiguiente(jugador.getHabitacionActual().getSalida("norte"));
         }
         if(direccion.equals("este")) {
-            habitacionAnterior = habitacionActual;
-            siguienteHabitacion = habitacionActual.getSalida("este");
+            //habitacionAnterior = habitacionActual;
+            //siguienteHabitacion = habitacionActual.getSalida("este");
+            jugador.setHabitacionSiguiente(jugador.getHabitacionActual().getSalida("este"));
         }
         if(direccion.equals("sur")) {
-            habitacionAnterior = habitacionActual;
-            siguienteHabitacion = habitacionActual.getSalida("sur");
+            //habitacionAnterior = habitacionActual;
+            //siguienteHabitacion = habitacionActual.getSalida("sur");
+            jugador.setHabitacionSiguiente(jugador.getHabitacionActual().getSalida("sur"));
         }
         if(direccion.equals("oeste")) {
-            habitacionAnterior = habitacionActual;
-            siguienteHabitacion = habitacionActual.getSalida("oeste");
+            //habitacionAnterior = habitacionActual;
+            //siguienteHabitacion = habitacionActual.getSalida("oeste");
+            jugador.setHabitacionSiguiente(jugador.getHabitacionActual().getSalida("oeste"));
         }
         if(direccion.equals("abajo")){
-            habitacionAnterior = habitacionActual;
-            siguienteHabitacion = habitacionActual.getSalida(direccion);
+            //habitacionAnterior = habitacionActual;
+            //siguienteHabitacion = habitacionActual.getSalida(direccion);
+            jugador.setHabitacionSiguiente(jugador.getHabitacionActual().getSalida("abajo"));
         }
          if(direccion.equals("arriba")){
-            habitacionAnterior = habitacionActual;
-            siguienteHabitacion = habitacionActual.getSalida(direccion);
+            //habitacionAnterior = habitacionActual;
+            //siguienteHabitacion = habitacionActual.getSalida(direccion);
+            jugador.setHabitacionSiguiente(jugador.getHabitacionActual().getSalida("arriba"));
         }
         
-        if (siguienteHabitacion == null) {
+        if (jugador.getHabitacionSiguiente() == null) {
             System.out.println("No hay ninguna puerta!");
         }
         else {
-            habitacionActual = siguienteHabitacion;
+            //habitacionActual = siguienteHabitacion;
+            jugador.setHabitacionActual(jugador.getHabitacionSiguiente());
+            
             //llamar a un metodo que imprima informacion
             imprimirInfoDeHabitacion();
            
@@ -235,7 +259,9 @@ public class Juego
      */
     private void volver()
     {
-        habitacionActual = habitacionAnterior;
+        //habitacionActual = habitacionAnterior;
+        jugador.setHabitacionActual(jugador.getHabitacionAnterior());
+        
         imprimirInfoDeHabitacion();
     }
 
@@ -263,7 +289,7 @@ public class Juego
     private void imprimirInfoDeHabitacion()
     {
         // nuevo metodo para imprimir la informacion de la habitacion actual y sus salidas
-        System.out.println(habitacionActual.getDescripcionLarga());
+        System.out.println(jugador.getHabitacionActual().getDescripcionLarga());
         
         //viejo metodo para imprimir la informacion de la habitacion y las salidas
         /*        *
@@ -274,5 +300,16 @@ public class Juego
         System.out.println("chinguenguencha");
         */
     }
+
+    /**
+     *  Inicializa un jugador para el juego
+     */
+    private void crearJugador()
+    {
+        // put your code here
+        jugador = new Jugador("player1", 3000);
+    }
+
+    
 
 }

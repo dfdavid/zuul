@@ -121,6 +121,18 @@ public class Habitacion
         
     }
     
+    /**
+     * An example of a method - replace this comment with your own
+     *
+     * @param  y   a sample parameter for a method
+     * @return     the sum of x and y
+     */
+    public ArrayList<Elemento> getListaElemntos()
+    {
+        ArrayList<Elemento> lista = elementos;
+        return lista;
+    }
+    
     
     /**
      *  Crea un nuevo elemento y lo agrega al Array de elementos de la habitacion
@@ -128,8 +140,8 @@ public class Habitacion
      *  @param String descripcion, la descripcion de que elemento es
      *  @param int peso, el peso que tiene el elemento
      */
-    public void agregarElemento(String descripcion, int peso){
-        Elemento e = new Elemento(descripcion, peso);
+    public void agregarElemento(String descripcion, int peso, boolean comestible){
+        Elemento e = new Elemento(descripcion, peso,comestible);
         elementos.add(e);
     }
     
@@ -170,6 +182,21 @@ public class Habitacion
         return aDevolver;
     }
 
-
-
+    public int  buscarElemento(String nombreElemento){
+        int respuesta = -1;
+        int i =0;
+        while (i < elementos.size()){
+            if(elementos.get(i).getDescripcion().equals(nombreElemento)){
+                respuesta = i;
+                break;
+            }
+            i++;
+        }
+        
+        return respuesta;
+    }
+    
+    public void removerElemento(int index){
+        elementos.remove(index);
+    }
 }

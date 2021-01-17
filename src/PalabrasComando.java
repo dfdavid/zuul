@@ -15,7 +15,7 @@ public class PalabrasComando
 {
     // un arreglo que contiene las palabras comando
     private static final String[] comandosValidos = {
-        "ir", "salir", "ayuda", "ver", "comer", "putear", "volver"
+        "ir", "salir", "ayuda", "ver", "comer", "putear", "volver", "tomar", "dejar", "inventario"
     };
 
     /**

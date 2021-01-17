@@ -9,14 +9,16 @@ public class Elemento
 {
     String descripcion;
     int peso;
+    boolean comestible;
 
     /**
      * Constructor for objects of class Elemento
      */
-    public Elemento(String descripcion, int peso)
+    public Elemento(String descripcion, int peso, boolean comestible)
     {
         this.descripcion = descripcion;
         this.peso = peso;
+        this.comestible = comestible;
     }
 
     /**
@@ -59,6 +61,31 @@ public class Elemento
     {
         // put your code here
         return peso;
+    }
+    
+    /**
+     * An example of a method - replace this comment with your own
+     *
+     * @param  y   a sample parameter for a method
+     * @return     the sum of x and y
+     */
+    public boolean getComestible()
+    {
+        // put your code here
+        return comestible;
+    }
+
+
+    /**
+     * An example of a method - replace this comment with your own
+     *
+     * @param  y   a sample parameter for a method
+     * @return     the sum of x and y
+     */
+    public void setComestible(boolean nuevoValor)
+    {
+        // put your code here
+        this.comestible = nuevoValor;
     }
 
 }
